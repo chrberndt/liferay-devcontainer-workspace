@@ -19,7 +19,7 @@ A valid GitHub account. GitHub currently (September 2026) offers access to codes
 
 1. Copy your developer license to `config/common/osgi/modules` (Please note: the license key should reside only in your codespace or a private repo but not in a publicly accessible repository.)
 1. From the Gradle view, choose Tasks → bundle → initBundle or run `./gradlew initBundle` from the terminal to setup your development server.
-1. Subsequently you can run Liferay by issuing `./bundles/tomcat/bin/catalina.sh jpda run` like you would do in local environment.
+1. Subsequently you can run Liferay by issuing `./bundles/tomcat/bin/catalina.sh jpda run` like you would do in a local environment.
 1. Switch to the "Ports" tab and use the "Open in Browser" globe icon to access your Liferay development server.
 
 ## Scaffold and deploy "traditional" OSGi modules with blade
