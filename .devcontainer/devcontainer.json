@@ -1,0 +1,68 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+	"name": "Java",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/java:3-21-trixie",
+
+    // We need at least for cores and 16gb ram to run Liferay.
+    // With these requirements set, GitHub Codespaces will automatically provision
+    // the larger machine as host for the devcontainer.
+	"hostRequirements": {
+	    "cpus": 4,
+	    "memory": "16gb",
+	    "storage": "32gb"
+    },
+
+	// Pass the codespace name as web.server.host name to Liferay. 
+    // With these settings you can run Liferay behind arbitrarily named proxies.
+	"containerEnv": {
+		"LIFERAY_WEB_PERIOD_SERVER_PERIOD_HOST": "${localEnv:CODESPACE_NAME}-8080.app.github.dev",
+		"LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL": "https",
+		"LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT": "443",
+		"LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS": "*"
+	},
+
+    // Automatically set up the Extension Pack for Java.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"vscjava.vscode-spring-boot-dashboard",
+				"shengchen.vscode-checkstyle"
+			],
+			"settings": {
+                "gradle.autoDetect": "on"
+			}
+		}
+	},
+
+    // Use Java 21 
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "21",
+			"installMaven": "false",
+			"installGradle": "false"
+		},
+		"ghcr.io/devcontainers-extra/features/apt-packages:1": {
+			"clean_ppas": true,
+			"preserve_apt_list": true,
+			"packages": "htop,git-lfs",
+			"ppas": "ppa:deadsnakes/ppa"
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+    // git-lfs is required to sync modifications from the codespace back into the repo.
+    // Additionally we setup Liferay's blade tool by default.
+	"postCreateCommand": "git lfs install; curl -L https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | sh && echo 'export PATH=\"$PATH:$HOME/jpm/bin\"' >> ~/.bashrc"
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
